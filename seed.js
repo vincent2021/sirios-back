@@ -76,7 +76,9 @@ for (let i = 0; i < 500; i++) {
             'date': info[0],
             'classif': info[1],
             'orga': info[2],
-            'bureau': info[3]
+            'bureau': info[3],
+            'titre': info[4],
+            'version': info[5]
         },
         'author': aut,
         'network': net,
@@ -100,7 +102,9 @@ for (let i = 0; i < 200; i++) {
             'date': info[0],
             'classif': info[1],
             'orga': info[2],
-            'bureau': info[3]
+            'bureau': info[3],
+            'titre': info[4],
+            'version': info[5]
         },
         'author': aut,
         'network': net,
