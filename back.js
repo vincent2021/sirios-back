@@ -16,9 +16,9 @@ const options = {
     shouldSort: true,
     matchAllTokens: true,
     threshold: 0.6,
-    keys: ['filename', 'filepath']
+    keys: ['filename', 'filepath'],
+    includeScore: true
 };
-
 const bdd = fs.readFileSync('scan.json');
 const data = JSON.parse(bdd);
 function search(keyword) {

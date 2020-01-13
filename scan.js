@@ -26,6 +26,7 @@ const walkSync = (dir, filelist = []) => {
             auteur: author[rand(0 , 3)],
             network: network[rand(0 , 2)],
             date: isNaN(file.substr(0, 8)) ? '' : file.substr(0, 8),
+            date_modif: fs.statSync(path.join(dir, file)).mtime,
             info: file.split('_')
         });
         completed++;
