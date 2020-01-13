@@ -28,16 +28,18 @@ const orga = ['EMAA', 'EMA', 'EDG', 'CDEC', 'EMAT'];
 const bur = ['BPLANS', 'BPSA', 'BORG', 'BOPS', 'BPFD'];
 const ver = ['1.0', '1.1', '2', '5', ''];
 const author = ['Sophie Cabanes', 'Benoit Dorigny', 'Damien Sauget', 'Stéphane Madoeuf'];
+const titre_doc = ['Presentation', 'Compte-rendu', 'Suivi-des-operations', 'Fiche-de-synthese'];
+const titre_img = ['Cartographie', 'Visualisation'];
 
 function randomFile(type) {
     const name = randomDate() + '_' + classif[rand(0 , 3)] + '_' + orga[rand(0 , 4)] + '_' + bur[rand(0 , 4)];
     if (type == 'doc') {
-        const titre = 'Presentation';
+        const titre = titre_doc[rand(0 , 3)];
         const version = ver[rand(0 , 4)];
         const ext = doc_ext[rand(0 , 3)]; 
         return name + '_' + titre + '_' + version + '.' + ext;
     } else if (type == 'img') {
-        const titre = 'Carto';
+        const titre = titre_img[rand(0 , 1)];
         const ext = img_ext[rand(0 , 2)]; 
         return name + '_' + titre + '.' + ext;
     }
