@@ -1,5 +1,6 @@
 const fs = require('fs');
 const express = require('express');
+const cors = require('cors')
 // Connexion MongoDB
 // const mongoose = require('mongoose');
 
@@ -29,7 +30,7 @@ function search(keyword) {
 
 // Partie Serveur API
 const app = express();
-
+app.use(cors())
 app.get('/', function (req, res) {
   res.send('Hello World!')
 })
