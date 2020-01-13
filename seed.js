@@ -72,7 +72,12 @@ for (let i = 0; i < 500; i++) {
     const ret = {
         'filepath': filepath,
         'filename': filename,
-        'info': info,
+        'info': {
+            'date': info[0],
+            'classif': info[1],
+            'orga': info[2],
+            'bureau': info[3]
+        },
         'author': aut,
         'network': net,
         'type': type
@@ -91,7 +96,12 @@ for (let i = 0; i < 200; i++) {
     const ret = {
         'filepath': filepath,
         'filename': filename,
-        'info': info,
+        'info': {
+            'date': info[0],
+            'classif': info[1],
+            'orga': info[2],
+            'bureau': info[3]
+        },
         'author': aut,
         'network': net,
         'type': type
