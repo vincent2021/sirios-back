@@ -63,7 +63,7 @@ function randFolder() {
 
 const bdd = [];
 
-for (let i = 0; i < 500; i++) {
+for (let i = 0; i < 800; i++) {
     const filename = randomFile('doc');
     const fulltitle = filename.substr(0, filename.lastIndexOf('.'));
     const type = filename.substr(filename.lastIndexOf('.') + 1);
