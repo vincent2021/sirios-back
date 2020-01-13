@@ -63,30 +63,40 @@ const bdd = [];
 
 for (let i = 0; i < 500; i++) {
     const filename = randomFile('doc');
+    const fulltitle = filename.substr(0, filename.lastIndexOf('.'));
+    const type = filename.substr(filename.lastIndexOf('.') + 1);
     const filepath = randFolder() + '/' + filename;
-    const info = filename.split('_');
-    const aut = author[rand(0 , 3)];
-    const ob = {
+    const info = fulltitle.split('_');
+    const aut = author[rand(0 , 3)];    
+    const net = filepath.substr(0, filepath.search('/'));
+    const ret = {
         'filepath': filepath,
         'filename': filename,
         'info': info,
-        'author': aut
+        'author': aut,
+        'network': net,
+        'type': type
     };
-    bdd.push(ob);
+    bdd.push(ret);
 }
 
 for (let i = 0; i < 200; i++) {
-    const filename = randomFile('doc');
+    const filename = randomFile('img');
+    const fulltitle = filename.substr(0, filename.lastIndexOf('.'));
+    const type = filename.substr(filename.lastIndexOf('.') + 1);
     const filepath = randFolder() + '/' + filename;
-    const info = filename.split('_');
+    const info = fulltitle.split('_');
     const aut = author[rand(0 , 3)];    
-    const ob = {
+    const net = filepath.substr(0, filepath.search('/'));
+    const ret = {
         'filepath': filepath,
         'filename': filename,
         'info': info,
-        'author': aut
+        'author': aut,
+        'network': net,
+        'type': type
     };
-    bdd.push(ob);
+    bdd.push(ret);
 }
 
 const data = JSON.stringify(bdd);
