@@ -49,13 +49,13 @@ const root_folder = 'seed';
 const network = ['FROPS', 'INTRADEF', 'INTRACED'];
 const folder = ['BARKHANE', 'GPPO-PANDA', 'GPPO-OPX24', 'CPOIA', 'EDG', 'BMA']
 const subfolder = ['00_J3', '01_J5', '02_J35', '03_J1'];
-// folder.forEach(function(folder) {
-//     mkdirp(root_folder + '/' + folder)
-//     subfolder.forEach(function(subfolder) {
-//         mkdirp(root_folder + '/' + folder + '/' + subfolder);
-//         mkdirp(root_folder + '/' + folder + '/' + subfolder + '/PUBLIC');
-//     });
-// });
+folder.forEach(function(folder) {
+    mkdirp(root_folder + '/' + folder)
+    subfolder.forEach(function(subfolder) {
+        mkdirp(root_folder + '/' + folder + '/' + subfolder);
+        mkdirp(root_folder + '/' + folder + '/' + subfolder + '/PUBLIC');
+    });
+});
 function randFolder() {
     const path = network[rand(0 , 2)] + '/' + folder[rand(0 , 3)] + '/' + subfolder[rand(0 , 3)] + '/PUBLIC' ;
     return path
@@ -68,6 +68,7 @@ for (let i = 0; i < 800; i++) {
     const fulltitle = filename.substr(0, filename.lastIndexOf('.'));
     const type = filename.substr(filename.lastIndexOf('.') + 1);
     const filepath = randFolder() + '/' + filename;
+    fs.writeFileSync('seed/' + filepath.substr(filepath.search('/') + 1));
     const info = fulltitle.split('_');
     const aut = author[rand(0 , 3)];    
     const net = filepath.substr(0, filepath.search('/'));
@@ -94,6 +95,7 @@ for (let i = 0; i < 200; i++) {
     const fulltitle = filename.substr(0, filename.lastIndexOf('.'));
     const type = filename.substr(filename.lastIndexOf('.') + 1);
     const filepath = randFolder() + '/' + filename;
+    fs.writeFileSync('seed/' + filepath.substr(filepath.search('/') + 1));
     const info = fulltitle.split('_');
     const aut = author[rand(0 , 3)];    
     const net = filepath.substr(0, filepath.search('/'));

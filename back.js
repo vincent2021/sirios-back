@@ -19,7 +19,7 @@ const options = {
     keys: ['filename', 'filepath']
 };
 
-const bdd = fs.readFileSync('bdd.json');
+const bdd = fs.readFileSync('scan.json');
 const data = JSON.parse(bdd);
 function search(keyword) {
     const fuse = new Fuse(data, options);
