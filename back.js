@@ -21,7 +21,6 @@ const options = {
 
 const bdd = fs.readFileSync('bdd.json');
 const data = JSON.parse(bdd);
-
 function search(keyword) {
     const fuse = new Fuse(data, options);
     const ret = fuse.search(keyword);
