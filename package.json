@@ -4,6 +4,7 @@
   "description": "",
   "main": "back.js",
   "dependencies": {
+    "@elastic/elasticsearch": "^7.5.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fuse.js": "^3.4.6",

@@ -39,7 +39,7 @@ const walkSync = (dir, filelist = []) => {
   return filelist;
 }
 
-root_folder = "/Volumes/EDG\ SIC/Sauvegarde\ Sharepoint\ Juin\ 2019/";
+root_folder = "/Users/vincent/edg-data/Sauvegarde\ Sharepoint\ Juin\ 2019/";
 const data = JSON.stringify(walkSync(root_folder));
 fs.writeFileSync('scan.json', data);
 console.log("Index done: " + completed + " files (" + missing + " files missing)")
