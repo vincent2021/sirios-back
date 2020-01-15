@@ -42,6 +42,25 @@ app.get('/search/:keyword', function (req, res) {
     res.send(ret);
 })
 
+// Route Elastic Search
+
+const { Client } = require('@elastic/elasticsearch')
+const client = new Client({ node: 'http://localhost:9200' })
+
+app.get('/es/:keyword', function (req, res) {
+  console.log("Recherche: '" + req.params.keyword + "'");
+  client.search({
+    index: 'test',
+    body: { }
+  }, (err, result) => {
+    console.log(result);
+    const ret = result;
+    res.send(ret);
+    console.log("# de resulats: " + Object.keys(ret).length);
+    if (err) console.log(err)
+  })
+})
+
 app.listen(3000, function () {
   console.log('Backend API listening on port 3000!')
 })
