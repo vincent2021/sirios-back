@@ -47,6 +47,37 @@ app.get('/search/:keyword', function (req, res) {
 const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
 
+app.get('/presearch/:keyword', function (req, res) {
+  
+  console.log("Pre-recherche: '" + req.params.keyword + "'");
+  client.search({
+    index: 'scan',
+    body: {
+      "query": {
+          "match": { 
+            "filepath": {
+              "query": req.params.keyword,
+              "fuzziness": 1
+            }
+          } 
+      }
+  }}, (err, result) => {
+    es_data = result.body.hits.hits;
+    console.log(es_data);
+    const ret = [];
+    es_data.forEach(file => {
+      ret.push({
+        'score': file._score,
+        'item': file._source
+      });
+    });
+    res.send(ret);
+    console.log("# de resulats: " + Object.keys(ret).length);
+    if (err) console.log(err)
+  })
+})
+
+
 app.get('/es/:keyword', function (req, res) {
   console.log("Recherche: '" + req.params.keyword + "'");
   client.search({
@@ -70,9 +101,6 @@ app.get('/es/:keyword', function (req, res) {
     es_data = result.body.hits.hits;
     const ret = [];
     es_data.forEach(file => {
-      console.log(file.highlight);
-      text = String(file.hightlight);
-      text.replace("\'", "\"");
       ret.push({
         'score': file._score,
         'title': file._source.title,
