@@ -72,7 +72,6 @@ app.get('/presearch/:keyword', function (req, res) {
       });
     });
     res.send(ret);
-    console.log("# de resulats: " + Object.keys(ret).length);
     if (err) console.log(err)
   })
 })
