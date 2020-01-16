@@ -50,11 +50,38 @@ const client = new Client({ node: 'http://localhost:9200' })
 app.get('/es/:keyword', function (req, res) {
   console.log("Recherche: '" + req.params.keyword + "'");
   client.search({
-    index: 'test',
-    body: { }
-  }, (err, result) => {
-    console.log(result);
-    const ret = result;
+    index: 'test2',
+    body: {
+      "query": {
+        "multi_match": {
+          "query": req.params.keyword,
+          "fields": [
+            "data.*"
+            ]
+          }
+        },
+        "highlight" : {
+            "fields" : {
+                "data.*" : {}
+            }
+        }
+      }
+    }, (err, result) => {
+    es_data = result.body.hits.hits;
+    const ret = [];
+    es_data.forEach(file => {
+      console.log(file.highlight);
+      text = String(file.hightlight);
+      text.replace("\'", "\"");
+      ret.push({
+        'score': file._score,
+        'title': file._source.title,
+        'author': file._source.author,
+        'encrypted': file._source.isClassified,
+        'filepath': file._source.filepath,
+        'data': file.highlight
+      });
+    });
     res.send(ret);
     console.log("# de resulats: " + Object.keys(ret).length);
     if (err) console.log(err)
