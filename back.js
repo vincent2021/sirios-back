@@ -51,7 +51,7 @@ app.get('/presearch/:keyword', function (req, res) {
   
   console.log("Pre-recherche: '" + req.params.keyword + "'");
   client.search({
-    index: 'scan',
+    index: 'scan2',
     body: {
       "query": {
           "match": { 
