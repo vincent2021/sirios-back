@@ -48,10 +48,9 @@ const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
 
 app.get('/presearch/:keyword', function (req, res) {
-  
   console.log("Pre-recherche: '" + req.params.keyword + "'");
   client.search({
-    index: 'scan2',
+    index: 'scan',
     body: {
       "query": {
           "match": { 
@@ -63,11 +62,11 @@ app.get('/presearch/:keyword', function (req, res) {
       }
   }}, (err, result) => {
     es_data = result.body.hits.hits;
-    console.log(es_data);
+    max_score = result.body.hits.max_score;
     const ret = [];
     es_data.forEach(file => {
       ret.push({
-        'score': file._score,
+        'score': file._score / max_score,
         'item': file._source
       });
     });
@@ -80,7 +79,7 @@ app.get('/presearch/:keyword', function (req, res) {
 app.get('/es/:keyword', function (req, res) {
   console.log("Recherche: '" + req.params.keyword + "'");
   client.search({
-    index: 'test2',
+    index: 'final',
     body: {
       "query": {
         "multi_match": {
@@ -98,10 +97,11 @@ app.get('/es/:keyword', function (req, res) {
       }
     }, (err, result) => {
     es_data = result.body.hits.hits;
+    max_score = result.body.hits.max_score;
     const ret = [];
     es_data.forEach(file => {
       ret.push({
-        'score': file._score,
+        'score': file._score / max_score,
         'title': file._source.title,
         'author': file._source.author,
         'encrypted': file._source.isClassified,
