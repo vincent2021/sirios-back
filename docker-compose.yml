@@ -1,0 +1,43 @@
+version: '3.2'
+services:
+  back:
+    container_name: api
+    image: node
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    working_dir: /usr/app
+    command: "npm run start-dev"
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    container_name: elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+        - discovery.type=single-node
+    restart: on-failure
+
+  kibana:
+    container_name: kibana
+    image: kibana:7.5.1
+    ports:
+      - 5601:5601
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+
+networks:
+  default:
+    driver: bridge
+    
+volumes:
+  data01:
+    driver: local

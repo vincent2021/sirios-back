@@ -1,0 +1,12 @@
+====Docker deployment====
+
+Install Docker, restart and run:
+docker-compose up
+or `docker-compose up -d` (no log output)
+
+====Manual deployment====
+#Start API server on port 3000 (node)
+npm start
+#Start Elastic (DB and Kibana)
+docker run --name es -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+docker run --link es:elasticsearch -p 5601:5601 kibana:7.5.1

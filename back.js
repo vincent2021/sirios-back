@@ -1,48 +1,39 @@
 const fs = require('fs');
 const express = require('express');
 const cors = require('cors')
-// Connexion MongoDB
-// const mongoose = require('mongoose');
 
-// mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true, useUnifiedTopology: true });
-
-// const db = mongoose.connection; 
-// db.on('error', console.error.bind(console, 'Erreur lors de la connexion')); 
-// db.once('open', function (){
-//     console.log("Connexion à la base OK"); 
-// }); 
-
-const Fuse = require('fuse.js');
-const options = {
-    shouldSort: true,
-    matchAllTokens: true,
-    threshold: 0.6,
-    keys: ['filename', 'filepath'],
-    includeScore: true
-};
-const bdd = fs.readFileSync('scan.json');
-const data = JSON.parse(bdd);
-function search(keyword) {
-    const fuse = new Fuse(data, options);
-    const ret = fuse.search(keyword);
-    return ret;
-}
-
-// Partie Serveur API
+// Sanity Scheck
 const app = express();
 app.use(cors())
 app.get('/', function (req, res) {
   res.send('Hello World!')
 })
 
-app.get('/search/:keyword', function (req, res) {
-    console.log("Recherche: '" + req.params.keyword + "'");
-    const ret = search(req.params.keyword);
-    console.log("# de resulats: " + Object.keys(ret).length);
-    res.send(ret);
-})
+//Fonction pre-recherche sans elastic search
+// const Fuse = require('fuse.js');
+// const options = {
+//     shouldSort: true,
+//     matchAllTokens: true,
+//     threshold: 0.6,
+//     keys: ['filename', 'filepath'],
+//     includeScore: true
+// };
+// const bdd = fs.readFileSync('scan.json');
+// const data = JSON.parse(bdd);
+// function search(keyword) {
+//     const fuse = new Fuse(data, options);
+//     const ret = fuse.search(keyword);
+//     return ret;
+// }
 
-// Route Elastic Search
+// app.get('/search/:keyword', function (req, res) {
+//     console.log("Recherche: '" + req.params.keyword + "'");
+//     const ret = search(req.params.keyword);
+//     console.log("# de resulats: " + Object.keys(ret).length);
+//     res.send(ret);
+// })
+
+//Elastic Search => Pre recherche
 
 const { Client } = require('@elastic/elasticsearch')
 const client = new Client({ node: 'http://localhost:9200' })
@@ -75,6 +66,7 @@ app.get('/presearch/:keyword', function (req, res) {
   })
 })
 
+//Elastic Search => Recherche full texte
 
 app.get('/es/:keyword', function (req, res) {
   console.log("Recherche: '" + req.params.keyword + "'");
@@ -115,6 +107,7 @@ app.get('/es/:keyword', function (req, res) {
   })
 })
 
+//Demarage de l'API Back
 app.listen(3000, function () {
   console.log('Backend API listening on port 3000!')
 })
