@@ -52,16 +52,18 @@ app.get('/presearch/:keyword', function (req, res) {
           } 
       }
   }}, (err, result) => {
-    es_data = result.body.hits.hits;
-    max_score = result.body.hits.max_score;
-    const ret = [];
-    es_data.forEach(file => {
-      ret.push({
-        'score': file._score / max_score,
-        'item': file._source
+    if (result.body.hits.hits) {
+      es_data = result.body.hits.hits;
+      max_score = result.body.hits.max_score;
+      const ret = [];
+      es_data.forEach(file => {
+        ret.push({
+          'score': file._score / max_score,
+          'item': file._source
+        });
       });
-    });
-    res.send(ret);
+      res.send(ret);
+    }
     if (err) console.log(err)
   })
 })
@@ -71,7 +73,7 @@ app.get('/presearch/:keyword', function (req, res) {
 app.get('/es/:keyword', function (req, res) {
   console.log("Recherche: '" + req.params.keyword + "'");
   client.search({
-    index: 'final',
+    index: 'test2',
     body: {
       "query": {
         "multi_match": {
@@ -88,21 +90,23 @@ app.get('/es/:keyword', function (req, res) {
         }
       }
     }, (err, result) => {
-    es_data = result.body.hits.hits;
-    max_score = result.body.hits.max_score;
-    const ret = [];
-    es_data.forEach(file => {
-      ret.push({
-        'score': file._score / max_score,
-        'title': file._source.title,
-        'author': file._source.author,
-        'encrypted': file._source.isClassified,
-        'filepath': file._source.filepath,
-        'data': file.highlight
+    if (result.body.hits.hits) {
+      es_data = result.body.hits.hits;
+      max_score = result.body.hits.max_score;
+      const ret = [];
+      es_data.forEach(file => {
+        ret.push({
+          'score': file._score / max_score,
+          'title': file._source.title,
+          'author': file._source.author,
+          'encrypted': file._source.isClassified,
+          'filepath': file._source.filepath,
+          'data': file.highlight
+        });
       });
-    });
-    res.send(ret);
-    console.log("# de resulats: " + Object.keys(ret).length);
+      res.send(ret);
+      console.log("# de resulats: " + Object.keys(ret).length);
+    }
     if (err) console.log(err)
   })
 })
